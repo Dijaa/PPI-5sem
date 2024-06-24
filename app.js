@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors"; // Importando o pacote cors
 import sequelize from './src/database/connection.js';
 import userRoutes from "./src/routes/userRoutes.js";
 import clienteRoutes from "./src/routes/clienteRoutes.js";
@@ -7,7 +8,9 @@ import equipamentoRoutes from "./src/routes/equipamentoRoutes.js";
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
+
 app.use("/users", userRoutes);
 app.use("/clientes", clienteRoutes);
 app.use("/taxas", taxaRoutes); 

@@ -10,7 +10,8 @@ const User = sequelize.define(
     name: { type: DataTypes.STRING, allowNull: false },
     email: { type: DataTypes.STRING, allowNull: false, unique: true },
     password: { type: DataTypes.STRING, allowNull: false },
-    admin: { type: DataTypes.BOOLEAN, defaultValue:false },
+    admin: { type: DataTypes.BOOLEAN, defaultValue: false },
+    status: { type: DataTypes.BOOLEAN, defaultValue: true },
   },
   {
     hooks: {

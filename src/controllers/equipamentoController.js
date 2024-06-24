@@ -14,7 +14,7 @@ const equipamentoController = {
             missingFields.push("resolucao");
         if (!body.capacidade_de_memoria)
             missingFields.push("capacidade_de_memoria");
-        if (!body.nfc)
+        if (body.nfc === undefined)
             missingFields.push("nfc");
         if (!body.data_compra)
             missingFields.push("data_compra");
@@ -23,7 +23,7 @@ const equipamentoController = {
         try {
             const { modelo, velocidade_copia, resolucao, capacidade_de_memoria, nfc, data_compra } = body;
 
-            const newEquipamento = Equipamento.create({ modelo, velocidade_copia, resolucao, capacidade_de_memoria, nfc, data_compra });
+            const newEquipamento = await Equipamento.create({ modelo, velocidade_copia, resolucao, capacidade_de_memoria, nfc, data_compra });
             
             return res.status(201).send({ success: true, message: "Equipamento cadastrado com sucesso", equipamento: newEquipamento });
         } catch (error) {
@@ -32,10 +32,13 @@ const equipamentoController = {
     },
 
     async list(req, res) {
+console.log(req);
         try {
-            const equipamentos = Equipamento.findAll();
+            const equipamentos = await Equipamento.findAll();
+            console.log(equipamentos);
             return res.status(200).send({ success: true, message: "Equipamentos encontrados", equipamentos: equipamentos });
         } catch (error) {
+            console.log(error);
             return res.status(500).send({ success: false, message: "Erro ao buscar equipamentos", error: error });
         }
     },

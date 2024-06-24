@@ -95,10 +95,14 @@ const userController = {
     let id = req.params.id;
     if (!req.body) return res.status(400).send({ success: false, message: "Dados não informados" });
     const body = req.body;
+    console.log(body);
     let missingFields = [];
     if (!body.name) missingFields.push("name");
     if (!body.email) missingFields.push("email");
-    if (!body.password) missingFields.push("password");
+    if(body.status == undefined) missingFields.push("status");
+
+
+    // if (!body.password) missingFields.push("password");
     if (missingFields.length) return res.status(400).send({ success: false, message: `Campos faltando: ${missingFields.join(", ")}` });
     try {
       const user = await User.findByPk(id);
@@ -106,10 +110,11 @@ const userController = {
 
       const name = body.name || user.name;
       const email = body.email || user.email;
-      const password = body.password || user.password;
+      // const password = body.password || user.password;
       const admin = body.admin || user.admin;
+      const status = body.status
 
-      await User.update({ name, email, password, admin }, { where: { id } });
+      await User.update({ name, email, admin, status }, { where: { id } });
 
       user.password = undefined;
 
