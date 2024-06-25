@@ -8,8 +8,6 @@ const equipamentoController = {
         let missingFields = [];
         if (!body.modelo)
             missingFields.push("modelo");
-        if (!body.velocidade_copia)
-            missingFields.push("velocidade_copia");
         if (!body.resolucao)
             missingFields.push("resolucao");
         if (!body.capacidade_de_memoria)
@@ -18,13 +16,17 @@ const equipamentoController = {
             missingFields.push("nfc");
         if (!body.data_compra)
             missingFields.push("data_compra");
+        if (!body.painel_controle)
+            missingFields.push("painel_controle");
+        if (body.frente_verso === undefined)
+            missingFields.push("frente_verso");
         if (missingFields.length)
             return res.status(400).send({ success: false, message: `Campos faltando: ${missingFields.join(", ")}` });
         try {
-            const { modelo, velocidade_copia, resolucao, capacidade_de_memoria, nfc, data_compra } = body;
+            const { modelo, resolucao, capacidade_de_memoria, nfc, data_compra, painel_controle, frente_verso } = body;
 
-            const newEquipamento = await Equipamento.create({ modelo, velocidade_copia, resolucao, capacidade_de_memoria, nfc, data_compra });
-            
+            const newEquipamento = await Equipamento.create({ modelo, resolucao, capacidade_de_memoria, nfc, data_compra, painel_controle, frente_verso });
+
             return res.status(201).send({ success: true, message: "Equipamento cadastrado com sucesso", equipamento: newEquipamento });
         } catch (error) {
             return res.status(500).send({ success: false, message: "Erro ao cadastrar equipamento", error: error });
@@ -32,7 +34,7 @@ const equipamentoController = {
     },
 
     async list(req, res) {
-console.log(req);
+        console.log(req);
         try {
             const equipamentos = await Equipamento.findAll();
             console.log(equipamentos);
@@ -61,8 +63,6 @@ console.log(req);
         if (!body.modelo)
             missingFields.push("modelo");
         if (!body.velocidade_copia)
-            missingFields.push("velocidade_copia");
-        if (!body.resolucao)
             missingFields.push("resolucao");
         if (!body.capacidade_de_memoria)
             missingFields.push("capacidade_de_memoria");
@@ -70,6 +70,12 @@ console.log(req);
             missingFields.push("nfc");
         if (!body.data_compra)
             missingFields.push("data_compra");
+        if (!body.painel_controle)
+            missingFields.push("painel_controle");
+        if (body.frente_verso === undefined)
+            missingFields.push("frente_verso");
+        console.log(missingFields);
+        console.log(body);
         if (missingFields.length)
             return res.status(400).send({ success: false, message: `Campos faltando: ${missingFields.join(", ")}` });
         try {
@@ -77,9 +83,9 @@ console.log(req);
             const equipamentoFind = Equipamento.findByPk(id);
             if (!equipamentoFind) return res.status(404).send({ success: false, message: "Equipamento não encontrado" });
 
-            const { modelo, velocidade_copia, resolucao, capacidade_de_memoria, nfc, data_compra } = body;
+            const { modelo, velocidade_copia, resolucao, capacidade_de_memoria, nfc, data_compra, painel_controle, frente_verso } = body;
 
-            await Equipamento.update({ modelo, velocidade_copia, resolucao, capacidade_de_memoria, nfc, data_compra }, { where: { id } });
+            await Equipamento.update({ modelo, resolucao, capacidade_de_memoria, nfc, data_compra, painel_controle, frente_verso }, { where: { id } });
 
             return res.send({ success: true, message: "Equipamento atualizado com sucesso" });
         } catch (error) {

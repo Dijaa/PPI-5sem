@@ -13,10 +13,6 @@ const Equipamento = sequelize.define(
             type: DataTypes.STRING,
             allowNull: false
         },
-        velocidade_copia: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         resolucao: {
             type: DataTypes.STRING,
             allowNull: false
@@ -32,7 +28,15 @@ const Equipamento = sequelize.define(
         data_compra: {
             type: DataTypes.DATE,
             allowNull: false
-        }
+        },
+        painel_controle: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        frente_verso: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
+        },
     }
 );
 
